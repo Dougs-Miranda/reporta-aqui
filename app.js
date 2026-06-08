@@ -3,8 +3,8 @@
    Capão Redondo, São Paulo – SP
    ============================ */
 
-// ---- Dados iniciais ----
-const ocorrencias = [
+// ---- Dados iniciais (fallback quando localStorage está vazio) ----
+const ocorrenciasIniciais = [
   {
     id: 'OC001',
     tipo: 'semaforo',
@@ -67,6 +67,41 @@ const ocorrencias = [
   },
 ];
 
+// ---- Persistência com localStorage ----
+const STORAGE_KEY = 'reporta_aqui_ocorrencias';
+const COUNTER_KEY = 'reporta_aqui_counter';
+
+function carregarOcorrencias() {
+  try {
+    const salvo = localStorage.getItem(STORAGE_KEY);
+    return salvo ? JSON.parse(salvo) : ocorrenciasIniciais.map(o => Object.assign({}, o));
+  } catch (e) {
+    return ocorrenciasIniciais.map(o => Object.assign({}, o));
+  }
+}
+
+function salvarOcorrencias() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(ocorrencias));
+  } catch (e) { /* silencioso */ }
+}
+
+function carregarContador() {
+  try {
+    const salvo = localStorage.getItem(COUNTER_KEY);
+    return salvo ? parseInt(salvo, 10) : 1007;
+  } catch (e) { return 1007; }
+}
+
+function salvarContador() {
+  try {
+    localStorage.setItem(COUNTER_KEY, String(protocoloCounter));
+  } catch (e) { /* silencioso */ }
+}
+
+// Array vivo — carregado do localStorage
+const ocorrencias = carregarOcorrencias();
+
 // ---- Etapas do fluxo ----
 const ETAPAS = [
   { id: 'registro',    label: 'Registro' },
@@ -115,7 +150,7 @@ const badgeCls = {
   urgente:   'urgente',
 };
 
-let protocoloCounter  = 1001;
+let protocoloCounter  = carregarContador();
 let filtroLista       = 'todas';
 let filtroAcomp       = 'todas';
 let tipoRapido        = 'buraco';
@@ -278,8 +313,8 @@ function enviarRapido() {
 
   atualizarStats();
   renderLista();
-
-  document.getElementById('q-rua').value  = '';
+  salvarOcorrencias();
+  salvarContador();
   document.getElementById('q-desc').value = '';
 
   const msg = document.getElementById('msg-rapido');
@@ -316,6 +351,8 @@ function enviarCompleto() {
   });
 
   atualizarStats();
+  salvarOcorrencias();
+  salvarContador();
 
   const elProt = document.getElementById('protocolo-num');
   if (elProt) elProt.textContent = protocolo;
@@ -355,7 +392,7 @@ document.addEventListener('DOMContentLoaded', () => {
     chip.addEventListener('click', () => {
       document.querySelectorAll('.chip[data-acomp-filter]').forEach(c => c.classList.remove('active'));
       chip.classList.add('active');
-      filtroAcomp = chip.dataset.acomplFilter || chip.dataset.acompFilter;
+      filtroAcomp = chip.dataset.acompFilter;
       renderAcompanhamento();
     });
   });
