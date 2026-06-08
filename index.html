@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reporta Aqui — Capão Redondo</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="nav">
+    <div class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24" fill="white" width="18" height="18">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+        </svg>
+      </div>
+      <span>Reporta Aqui</span>
+    </div>
+    <div class="nav-links">
+      <a href="#" class="nav-link active" data-page="inicio">Início</a>
+      <a href="#" class="nav-link" data-page="relatar">Relatar</a>
+      <a href="#" class="nav-link" data-page="acompanhamento">Acompanhamento</a>
+    </div>
+    <button class="nav-cta" data-page="relatar">+ Nova Ocorrência</button>
+  </nav>
+
+  <!-- PÁGINA: INÍCIO -->
+  <div id="page-inicio" class="page active">
+
+    <section class="hero">
+      <div class="hero-content">
+        <span class="hero-badge">📍 Capão Redondo, São Paulo – SP</span>
+        <h1>Juntos por um bairro <span class="highlight">melhor</span></h1>
+        <p>Registre problemas urbanos da sua rua e acompanhe o que a comunidade está reportando em tempo real.</p>
+        <div class="hero-btns">
+          <button class="btn-primary" data-page="relatar">Registrar ocorrência</button>
+          <button class="btn-ghost" data-page="acompanhamento">Acompanhar ocorrências</button>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-card">
+          <div class="hc-header">
+            <span class="hc-dot red"></span>
+            <span class="hc-dot yellow"></span>
+            <span class="hc-dot green"></span>
+          </div>
+          <div class="hc-body">
+            <div class="hc-row"><span class="hc-icon">🕳️</span><span>Buraco na Av. Battistoni</span><span class="badge urgente">Urgente</span></div>
+            <div class="hc-row"><span class="hc-icon">💡</span><span>Poste apagado — R. Mato Grosso</span><span class="badge analise">Análise</span></div>
+            <div class="hc-row"><span class="hc-icon">🚦</span><span>Semáforo inoperante</span><span class="badge novo">Novo</span></div>
+            <div class="hc-row"><span class="hc-icon">🗑️</span><span>Lixo acumulado</span><span class="badge resolvido">Resolvido</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats-bar">
+      <div class="stat">
+        <span class="stat-num" id="cnt-total">6</span>
+        <span class="stat-lbl">Ocorrências registradas</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" id="cnt-resolvidas">1</span>
+        <span class="stat-lbl">Resolvidas</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" id="cnt-andamento">5</span>
+        <span class="stat-lbl">Em andamento</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">4</span>
+        <span class="stat-lbl">Tipos de problema</span>
+      </div>
+    </section>
+
+    <section class="main-grid">
+      <div class="col-main">
+        <div class="panel">
+          <div class="panel-header">
+            <h2>Ocorrências recentes</h2>
+            <div class="filter-row">
+              <button class="chip active" data-filter="todas">Todas</button>
+              <button class="chip" data-filter="buraco">🕳️ Buracos</button>
+              <button class="chip" data-filter="iluminacao">💡 Iluminação</button>
+              <button class="chip" data-filter="semaforo">🚦 Semáforo</button>
+              <button class="chip" data-filter="lixo">🗑️ Lixo</button>
+            </div>
+          </div>
+          <div class="panel-body" id="lista-ocorrencias"></div>
+        </div>
+      </div>
+
+      <div class="col-side">
+        <div class="panel">
+          <div class="panel-header"><h2>Registrar rapidamente</h2></div>
+          <div class="panel-body">
+            <div class="tipo-grid" id="tipo-rapido">
+              <button class="tipo-btn selected" data-tipo="buraco"><span>🕳️</span>Buraco</button>
+              <button class="tipo-btn" data-tipo="iluminacao"><span>💡</span>Iluminação</button>
+              <button class="tipo-btn" data-tipo="semaforo"><span>🚦</span>Semáforo</button>
+              <button class="tipo-btn" data-tipo="lixo"><span>🗑️</span>Lixo</button>
+            </div>
+            <div class="form-group">
+              <label>Rua / Referência</label>
+              <input type="text" id="q-rua" placeholder="Ex: Av. Battistoni Filho, 150">
+            </div>
+            <div class="form-group">
+              <label>Descrição breve</label>
+              <textarea id="q-desc" placeholder="Descreva o problema..."></textarea>
+            </div>
+            <button class="btn-submit" id="btn-enviar-rapido">Enviar ocorrência</button>
+            <div class="success-msg" id="msg-rapido">✓ Ocorrência registrada com sucesso!</div>
+          </div>
+        </div>
+
+        <div class="panel impacto-panel">
+          <div class="panel-body">
+            <div class="impacto-titulo">Nosso impacto no bairro</div>
+            <div class="impacto-grid">
+              <div class="impacto-item">
+                <span class="impacto-num" id="imp-usuarios">128</span>
+                <span class="impacto-emoji">👥</span>
+                <span class="impacto-label">moradores usaram a plataforma</span>
+              </div>
+              <div class="impacto-divider"></div>
+              <div class="impacto-item">
+                <span class="impacto-num" id="imp-resolvidos">43</span>
+                <span class="impacto-emoji">✅</span>
+                <span class="impacto-label">problemas foram resolvidos</span>
+              </div>
+              <div class="impacto-divider"></div>
+              <div class="impacto-item">
+                <span class="impacto-num" id="imp-dias">12</span>
+                <span class="impacto-emoji">⚡</span>
+                <span class="impacto-label">dias em média para resolver</span>
+              </div>
+            </div>
+            <div class="impacto-frase">"Já ajudamos <strong id="imp-frase-num">128</strong> moradores do Capão Redondo a serem ouvidos."</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- PÁGINA: RELATAR -->
+  <div id="page-relatar" class="page">
+    <div class="form-page">
+      <div class="form-page-header">
+        <h1>Nova ocorrência</h1>
+        <p>Preencha os campos abaixo para registrar um problema urbano no bairro.</p>
+      </div>
+      <div class="panel">
+        <div class="panel-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Seu nome <span class="required">*</span></label>
+              <input type="text" id="r-nome" placeholder="Nome completo">
+            </div>
+            <div class="form-group">
+              <label>E-mail <span class="optional">(opcional)</span></label>
+              <input type="email" id="r-email" placeholder="Para receber atualizações">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Tipo de problema <span class="required">*</span></label>
+              <select id="r-tipo">
+                <option value="buraco">🕳️ Buraco na via</option>
+                <option value="iluminacao">💡 Falha na iluminação pública</option>
+                <option value="semaforo">🚦 Semáforo quebrado / inoperante</option>
+                <option value="lixo">🗑️ Lixo acumulado</option>
+                <option value="outro">📋 Outro</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Grau de urgência <span class="required">*</span></label>
+              <select id="r-urgencia">
+                <option value="baixa">Baixa — sem risco imediato</option>
+                <option value="media" selected>Média — incômodo significativo</option>
+                <option value="alta">Alta — risco de acidente</option>
+                <option value="urgente">Urgente — perigo imediato</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Endereço / localização <span class="required">*</span></label>
+            <input type="text" id="r-end" placeholder="Rua, número e ponto de referência">
+          </div>
+          <div class="form-group">
+            <label>Descrição detalhada</label>
+            <textarea id="r-desc" placeholder="Descreva o problema: tamanho, situação, há quanto tempo existe..."></textarea>
+          </div>
+          <button class="btn-submit full" id="btn-enviar-completo">Enviar ocorrência</button>
+          <div class="success-msg" id="msg-completo">
+            ✓ Ocorrência registrada! Protocolo: <strong id="protocolo-num"></strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PÁGINA: ACOMPANHAMENTO -->
+  <div id="page-acompanhamento" class="page">
+    <div class="acomp-page">
+      <div class="acomp-header">
+        <h1>Acompanhamento de ocorrências</h1>
+        <p>Veja o progresso de cada ocorrência registrada no bairro.</p>
+      </div>
+
+      <div class="acomp-filters">
+        <button class="chip active" data-acomp-filter="todas">Todas</button>
+        <button class="chip" data-acomp-filter="novo">Novas</button>
+        <button class="chip" data-acomp-filter="analise">Em análise</button>
+        <button class="chip" data-acomp-filter="urgente">Urgentes</button>
+        <button class="chip" data-acomp-filter="resolvido">Resolvidas</button>
+      </div>
+
+      <div class="acomp-cards" id="acomp-cards"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
